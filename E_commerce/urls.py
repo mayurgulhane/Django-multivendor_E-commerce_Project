@@ -18,10 +18,23 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.conf.urls import include
 urlpatterns = [
-    
+
+    path('404_error', views.error,name='error'),
+
     path('admin/', admin.site.urls),
-    path('', views.Home, name='Home'),
+    path('', views.Home, name='home'),
+    path('product_detail/<slug:slug>', views.productDetail, name='productDetail'),
+
+    path('account/my-account', views.myAccount, name='myAccount'),
+    path('account/register', views.accountRegister, name='accountRegister'),
+    path('account/login', views.logIn, name='handleLogIn'),
+
+    path('account/my_profile', views.profile, name='profile'),
+    path('account/my_profile_update', views.profileUpdate, name='profileUpdate'),
+
+
+    path('accounts/', include('django.contrib.auth.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

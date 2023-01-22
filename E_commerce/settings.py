@@ -180,3 +180,18 @@ CKEDITOR_CONFIGS = {
         ),
     }
 }
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR:'danger',
+}
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'krushnaraogulhane@gmail.com'
+EMAIL_HOST_PASSWORD = 'vdcqbdqjqrgnucdc'

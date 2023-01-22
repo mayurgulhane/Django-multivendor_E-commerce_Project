@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+<!-- page-banner-area-start -->
+<div class="page-banner-area page-banner-height-2"
+  data-background="{% static 'assets/img/banner/page-banner-4.jpg' %} ">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="page-banner-content text-center">
+          <h4 class="breadcrumb-title">My account</h4>
+          <div class="breadcrumb-two">
+            <nav>
+              <nav class="breadcrumb-trail breadcrumbs">
+                <ul class="breadcrumb-menu">
+                  <li class="breadcrumb-trail">
+                    <a href="{% url 'home' %}"><span>Home</span></a>
+                  </li>
+                  <li class="trail-item">
+                    <span>My account</span>
+                  </li>
+                </ul>
+              </nav>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- page-banner-area-end -->
+
+<!-- account-area-start -->
+<div class="account-area mt-70 mb-70">
+  <div class="container">
+
+    {% include "includes/message.html" %}
+
+    <div class="basic-login mb-50">
+      <form class="row g-3" action="{% url 'profileUpdate' %}" method="POST">
+        {% csrf_token %}
+        <h2>Update Your Profile</h2>
+        <hr>
+        <div class="col-md-6">
+          <label for="inputEmail4" class="form-label">First Name <span>*</span></label>
+          <input type="text" class="form-control" id="inputEmail4" name="fname" value="{{user.first_name}}">
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail4" class="form-label">Last Name <span>*</span></label>
+          <input type="text" class="form-control" id="inputEmail4" name="lname" value="{{user.last_name}}">
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail4" class="form-label">Username <span>*</span></label>
+          <input type="text" class="form-control" id="inputEmail4" name="username" value="{{user.username}}">
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmail4" class="form-label">Email Address <span>*</span></label>
+          <input type="email" class="form-control" id="inputEmail4" name="email" value="{{user.email}}">
+        </div>
+        <div class="col-md-6">
+          <label for="inputPassword4" class="form-label">Password</label>
+          <input type="password" class="form-control" id="inputPassword4"
+            placeholder="Fill Only If You Want To Change Password" name="password">
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <button type="submit" class="btn btn-warning w-100">UPDATE PROFILE</button>
+          </div>
+          <div class="col-md-3">
+            <a href="{% url 'logout' %}" class="btn btn-danger w-100">Logout</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- account-area-end -->
+
+{% endblock content %}

@@ -8,31 +8,18 @@
                 <div class="row align-items-center">
                     <div class="col-xl-6 col-lg-7">
                         <div class="header-inner-start">
-                            <div class="header__currency border-right">
-                                <div class="s-name">
-                                    <span>Language: </span>
-                                </div>
-                                <select>
-                                    <option>English</option>
-                                    <option>Deutsch</option>
-                                    <option>Français</option>
-                                    <option>Espanol</option>
-                                </select>
-                            </div>
-                            <div class="header__lang border-right">
-                                <div class="s-name">
-                                    <span>Currency: </span>
-                                </div>
-                                <select>
-                                    <option> USD</option>
-                                    <option>EUR</option>
-                                    <option>INR</option>
-                                    <option>BDT</option>
-                                    <option>BGD</option>
-                                </select>
-                            </div>
                             <div class="support d-none d-sm-block">
-                                <p>Need Help? <a href="tel:+001123456789">+001 123 456 789</a></p>
+                                {% if user.is_authenticated %}
+                                <p>Welcome
+                                    {% if user.first_name == "" %}
+                                    {{user.email}}
+                                    {% else %}
+                                    {{user.first_name}} {{user.last_name}}
+                                    {% endif %}
+                                </p>
+                                {% else %}
+                                <p>Please do Login First..</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -59,7 +46,7 @@
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4">
                         <div class="header__info">
                             <div class="logo">
-                                <a href="index.html" class="logo-image"><img
+                                <a href="{% url 'home' %}" class="logo-image"><img
                                         src="{% static 'assets/img/logo/logo1.svg' %} " alt="logo"></a>
                             </div>
                         </div>
@@ -92,14 +79,31 @@
                     </div>
                     <div class="col-xl-4 col-lg-5 col-md-8 col-sm-8">
                         <div class="header-action">
+
+                            {% if user.is_authenticated %}
+
                             <div class="block-userlink">
-                                <a class="icon-link" href="my-account.html">
+                                <a class="icon-link" href="{% url 'profile' %}">
+                                    <i class="flaticon-user"></i>
+                                    <span class="text">
+                                        <span class="sub">Log out </span>
+                                        My Profile </span>
+                                </a>
+                            </div>
+
+                            {% else %}
+
+                            <div class="block-userlink">
+                                <a class="icon-link" href="{% url 'login' %}">
                                     <i class="flaticon-user"></i>
                                     <span class="text">
                                         <span class="sub">Login </span>
                                         My Account </span>
                                 </a>
                             </div>
+
+                            {% endif %}
+                            
                             <div class="block-wishlist action">
                                 <a class="icon-link" href="wishlist.html">
                                     <i class="flaticon-heart"></i>
@@ -132,7 +136,7 @@
                                                     <div class="cart__inner d-flex">
                                                         <div class="cart__thumb">
                                                             <a href="product-details.html">
-                                                                <img src="{% static 'assets/img/cart/20.jpg' %}" alt="">
+                                                                <img src="assets/img/cart/20.jpg" alt="">
                                                             </a>
                                                         </div>
                                                         <div class="cart__details">
@@ -168,6 +172,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <div class="header__bottom">
         <div class="container">
@@ -224,52 +229,7 @@
                             <nav>
                                 <ul>
                                     <li>
-                                        <a href="index.html" class="active">Home <i class="far fa-angle-down"></i></a>
-                                        <ul class="megamenu-1">
-                                            <li><a href="index.html">Home Pages</a>
-                                                <ul class="mega-item">
-                                                    <li><a href="index.html" class="active">Home One</a></li>
-                                                    <li><a href="index-2.html">Home Two</a></li>
-                                                    <li><a href="index-3.html">Home Three</a></li>
-                                                    <li><a href="product-details.html">Shop 3 Column</a></li>
-                                                    <li><a href="product-details.html">Shop 4 Column</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="shop.html">Product Pages</a>
-                                                <ul class="mega-item">
-                                                    <li><a href="product-details.html">Product Details</a></li>
-                                                    <li><a href="product-details.html">Product V2</a></li>
-                                                    <li><a href="product-details.html">Product V3</a></li>
-                                                    <li><a href="product-details.html">Varriable Product</a></li>
-                                                    <li><a href="product-details.html">External Product</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="shop.html">Other Pages</a>
-                                                <ul class="mega-item">
-                                                    <li><a href="product-details.html">wishlist</a></li>
-                                                    <li><a href="product-details.html">Shopping Cart</a></li>
-                                                    <li><a href="product-details.html">Checkout</a></li>
-                                                    <li><a href="product-details.html">Login</a></li>
-                                                    <li><a href="product-details.html">Register</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="shop.html">Phone &amp; Tablets</a>
-                                                <ul class="mega-item">
-                                                    <li><a href="product-details.html">Catagory 1</a></li>
-                                                    <li><a href="product-details.html">Catagory 2</a></li>
-                                                    <li><a href="product-details.html">Catagory 3</a></li>
-                                                    <li><a href="product-details.html">Catagory 4</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="shop.html">Phone &amp; Tablets</a>
-                                                <ul class="mega-item">
-                                                    <li><a href="product-details.html">Catagory 1</a></li>
-                                                    <li><a href="product-details.html">Catagory 2</a></li>
-                                                    <li><a href="product-details.html">Catagory 3</a></li>
-                                                    <li><a href="product-details.html">Catagory 4</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
+                                        <a href="{% url 'home' %}" class="active">Home</a>
                                     </li>
                                     <li><a href="about.html">About Us</a></li>
                                     <li class="has-mega"><a href="shop.html">Shop <i class="far fa-angle-down"></i></a>
@@ -345,7 +305,8 @@
                                             </div>
                                             <div class="offer mt-40">
                                                 <p><b>30% OFF</b> the shipping of your first order with the code:
-                                                    <b>DUKA-SALE30</b></p>
+                                                    <b>DUKA-SALE30</b>
+                                                </p>
                                             </div>
                                         </div>
                                     </li>
