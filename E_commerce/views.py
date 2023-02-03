@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, HttpResponse
-from app.models import Slider, Banner_area, Main_category, Product, Category
+from app.models import Slider, Banner_area, Main_category, Product, Category, Color, Brand
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from django.db.models import Max, Min
 
 
 def Home(request):
@@ -38,10 +39,37 @@ def contact(request):
 def product(request):
     category  = Category.objects.all()
     product = Product.objects.all()
+    color = Color.objects.all()
+    brand = Brand.objects.all()
+
+    min_price = Product.objects.all().aggregate(Min('price'))
+    max_price = Product.objects.all().aggregate(Max('price'))
+    print(min_price)
+    print(max_price)
+
+    FilterPrice = request.GET.get('FilterPrice')
+    colorId = request.GET.get('colorID')
+
+    if FilterPrice:
+        Int_FilterPrice = int(FilterPrice)
+        product = Product.objects.filter(price__lte = Int_FilterPrice)
+
+    elif colorId:
+         product = Product.objects.filter(color = colorId)
+
+    else:
+        product = Product.objects.all()
+
 
     context={
         'category' : category,
-        'product' : product
+        'product' : product,
+        'min_price' : min_price,
+        'max_price' : max_price,
+        'FilterPrice' : FilterPrice,
+        'color' : color,
+        'brand' : brand
+
     }
 
     return render(request,'product/product.html', context)
@@ -50,25 +78,28 @@ def product(request):
 def filter_data(request):
     categories = request.GET.getlist('category[]')
     brands = request.GET.getlist('brand[]')
+    product_num = request.GET.getlist('product_num[]')
+   
 
     allProducts = Product.objects.all().order_by('-id').distinct()
     if len(categories) > 0:
         allProducts = allProducts.filter(categories__id__in=categories).distinct()
 
+    if len(product_num) > 0:
+        allProducts = allProducts.all().order_by('-id')[0:1]
+        
     if len(brands) > 0:
-        allProducts = allProducts.filter(Brand__id__in=brands).distinct()
-
-
+        allProducts = allProducts.filter(brand_name__id__in=brands).distinct()
+    
     t = render_to_string('ajax/product.html', {'product': allProducts})
-
     return JsonResponse({'data': t})
 
 
 def productDetail(request,slug):
-
     productDetail = Product.objects.filter(slug = slug)
     if productDetail.exists():
         productDetail = Product.objects.get(slug = slug)
+
     else:
         return redirect('error')
 
@@ -111,8 +142,8 @@ def accountRegister(request):
         messages.success(request,"Your Registration Successfully ! Please Login")
         return redirect('login')
 
-
     return render(request,'account/my_account.html')
+
 
 def logIn(request):
     if request.method == "POST":

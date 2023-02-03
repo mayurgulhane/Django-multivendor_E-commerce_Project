@@ -63,16 +63,32 @@ class Section(models.Model):
         return self.name
 
 
+class Color(models.Model):
+    code = models.CharField(max_length=100,null=True)
+
+    def __str__(self):
+        return self.code
+
+
+class Brand(models.Model):
+    brandName = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.brandName
+
+
 class Product(models.Model):
     total_quantity = models.IntegerField()
     availability = models.IntegerField()
     featured_image = models.CharField(max_length=100)
     product_name = models.CharField(max_length=100)
+    brand_name = models.ForeignKey(Brand, on_delete=models.CASCADE,null=True)
     price = models.IntegerField()
     discount = models.IntegerField()
     product_info = RichTextField()
     model_name = models.CharField(max_length=100)
     categories = models.ForeignKey(Category, on_delete=models.CASCADE)
+    color  = models.ForeignKey(Color,on_delete=models.CASCADE,null=True)
     tags = models.CharField(max_length=100)
     description = RichTextField()
     section = models.ForeignKey(Section, on_delete=models.DO_NOTHING)
@@ -80,6 +96,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
 
     def get_absolute_url(self):
         from django.urls import reverse
