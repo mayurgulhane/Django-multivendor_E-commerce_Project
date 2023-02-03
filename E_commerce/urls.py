@@ -24,7 +24,13 @@ urlpatterns = [
     path('404_error', views.error,name='error'),
 
     path('admin/', admin.site.urls),
+
     path('', views.Home, name='home'),
+    path('aboutUs', views.about, name='about'),
+    path('contactUs', views.contact, name='contact'),
+
+    path('product', views.product, name='product'),
+    path('product/filter-data',views.filter_data,name="filter-data"),
     path('product_detail/<slug:slug>', views.productDetail, name='productDetail'),
 
     path('account/my-account', views.myAccount, name='myAccount'),

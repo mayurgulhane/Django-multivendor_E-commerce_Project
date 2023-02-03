@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/font-awesome-pro.css' %} ">
     <link rel="stylesheet" href="{% static 'assets/css/default.css' %} ">
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %} ">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -139,6 +140,10 @@
     </main>
 
     {% include "includes/footer.html" %}
+
+    {% block script %}
+    
+    {% endblock script %}
 
     <!-- JS here -->
     <script src="{% static 'assets/js/vendor/jquery.js' %} "></script>

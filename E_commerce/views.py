@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, HttpResponse
-from app.models import Slider, Banner_area, Main_category, Product
+from app.models import Slider, Banner_area, Main_category, Product, Category
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 
 def Home(request):
@@ -23,6 +25,43 @@ def Home(request):
     }
 
     return render(request,'Main/Home.html',context)
+
+
+def about(request):
+    return render(request,'Main/about.html')
+
+
+def contact(request):
+    return render(request,'Main/contact.html')
+
+
+def product(request):
+    category  = Category.objects.all()
+    product = Product.objects.all()
+
+    context={
+        'category' : category,
+        'product' : product
+    }
+
+    return render(request,'product/product.html', context)
+
+
+def filter_data(request):
+    categories = request.GET.getlist('category[]')
+    brands = request.GET.getlist('brand[]')
+
+    allProducts = Product.objects.all().order_by('-id').distinct()
+    if len(categories) > 0:
+        allProducts = allProducts.filter(categories__id__in=categories).distinct()
+
+    if len(brands) > 0:
+        allProducts = allProducts.filter(Brand__id__in=brands).distinct()
+
+
+    t = render_to_string('ajax/product.html', {'product': allProducts})
+
+    return JsonResponse({'data': t})
 
 
 def productDetail(request,slug):
